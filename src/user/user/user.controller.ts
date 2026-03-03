@@ -6,11 +6,25 @@ import {
   Param,
   Post,
   Query,
+  Req,
+  Res,
 } from '@nestjs/common';
-import { Request } from 'express';
+import type { Request, Response } from 'express';
 
 @Controller('/api/users')
 export class UserController {
+  @Get('/set-cookie')
+  setCookie(@Query('name') name: string, @Res() response: Response) {
+    response.cookie('name', name);
+    response.status(200).send('Cookie set');
+  }
+
+  @Get('/get-cookie')
+  getCookie(@Req() request: Request): string {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+    return request.cookies['name'];
+  }
+
   @Get('/sample-hello')
   @HttpCode(200)
   @Header('Content-Type', 'application/json')
