@@ -1,8 +1,25 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Header,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { Request } from 'express';
 
 @Controller('/api/users')
 export class UserController {
+  @Get('/sample-hello')
+  @HttpCode(200)
+  @Header('Content-Type', 'application/json')
+  sampleHello(): Record<string, string> {
+    return {
+      data: 'hello',
+    };
+  }
+
   @Get('/hello')
   sayHello(
     @Query('first_name') firtsName: string,
