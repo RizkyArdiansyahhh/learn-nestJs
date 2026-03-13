@@ -10,9 +10,17 @@ import {
   Res,
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import { UserService } from './user.service';
 
 @Controller('/api/users')
 export class UserController {
+  constructor(private service: UserService) {}
+
+  @Get('/hello')
+  sayHello(@Query('name') name: string) {
+    return this.service.sayHello(name);
+  }
+
   @Get('/set-cookie')
   setCookie(@Query('name') name: string, @Res() response: Response) {
     response.cookie('name', name);
@@ -32,14 +40,6 @@ export class UserController {
     return {
       data: 'hello',
     };
-  }
-
-  @Get('/hello')
-  sayHello(
-    @Query('first_name') firtsName: string,
-    @Query('last_name') lastName: string,
-  ) {
-    return `Hello ${firtsName} ${lastName}`;
   }
 
   @Get('/:id')
