@@ -6,6 +6,7 @@ import {
   MySQLConnection,
   PostgreSQLConnection,
 } from './connection/connection';
+import { mailService, MailService } from './mail/mail.service';
 
 @Module({
   controllers: [UserController],
@@ -17,6 +18,10 @@ import {
         process.env.DATABASE === 'mysql'
           ? MySQLConnection
           : PostgreSQLConnection,
+    },
+    {
+      provide: MailService,
+      useValue: mailService,
     },
   ],
 })

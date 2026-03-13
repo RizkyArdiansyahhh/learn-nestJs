@@ -12,16 +12,19 @@ import {
 import type { Request, Response } from 'express';
 import { UserService } from './user.service';
 import { Connection } from '../connection/connection';
+import { MailService } from '../mail/mail.service';
 
 @Controller('/api/users')
 export class UserController {
   constructor(
     private userService: UserService,
     private connectionService: Connection,
+    private mailService: MailService,
   ) {}
 
   @Get('/connection')
   getConnection() {
+    this.mailService.send();
     return this.connectionService.getName();
   }
 
