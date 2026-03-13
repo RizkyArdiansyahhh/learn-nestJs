@@ -11,14 +11,23 @@ import {
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { UserService } from './user.service';
+import { Connection } from '../connection/connection';
 
 @Controller('/api/users')
 export class UserController {
-  constructor(private service: UserService) {}
+  constructor(
+    private userService: UserService,
+    private connectionService: Connection,
+  ) {}
+
+  @Get('/connection')
+  getConnection() {
+    return this.connectionService.getName();
+  }
 
   @Get('/hello')
   sayHello(@Query('name') name: string) {
-    return this.service.sayHello(name);
+    return this.userService.sayHello(name);
   }
 
   @Get('/set-cookie')
