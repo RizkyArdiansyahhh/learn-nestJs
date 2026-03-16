@@ -3,6 +3,7 @@ import {
   Get,
   Header,
   HttpCode,
+  Inject,
   Param,
   Post,
   Query,
@@ -20,10 +21,12 @@ export class UserController {
     private userService: UserService,
     private connectionService: Connection,
     private mailService: MailService,
+    @Inject('EmailService') private emailService: MailService,
   ) {}
 
   @Get('/connection')
   getConnection() {
+    this.emailService.send();
     this.mailService.send();
     return this.connectionService.getName();
   }

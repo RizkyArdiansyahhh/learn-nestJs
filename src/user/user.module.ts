@@ -23,6 +23,10 @@ import { mailService, MailService } from './mail/mail.service';
       provide: MailService,
       useValue: mailService,
     },
+    {
+      provide: 'EmailService',
+      useExisting: MailService,
+    },
   ],
 })
 export class UserModule {}
