@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
-import {
-  Connection,
-  MySQLConnection,
-  PostgreSQLConnection,
-} from './connection/connection';
+import { Connection, createConnection } from './connection/connection';
 import { mailService, MailService } from './mail/mail.service';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   controllers: [UserController],
@@ -14,10 +11,8 @@ import { mailService, MailService } from './mail/mail.service';
     UserService,
     {
       provide: Connection,
-      useClass:
-        process.env.DATABASE === 'mysql'
-          ? MySQLConnection
-          : PostgreSQLConnection,
+      useFactory: createConnection,
+      inject: [ConfigService],
     },
     {
       provide: MailService,
